@@ -1,5 +1,5 @@
 const express = require("express");
-const { connectToMongoDB } = require('./connect')
+const connectToMongoDB  = require('./connect')
 const path = require('path')
 const URL = require('./models/url');
 const cookieParser = require('cookie-parser')
@@ -10,9 +10,9 @@ const staticRoute = require('./routes/staticRoute')
 const userRoute = require('./routes/user')
 
 const app = express();
-const PORT = 8000;
 
-connectToMongoDB('mongodb://127.0.0.1:27017/short-url')
+
+connectToMongoDB()
 .then (()=> console.log("MongoDB connected"))
 
 app.set("view engine" , "ejs")
@@ -73,4 +73,5 @@ app.get("/url/:shortId", async (req, res) => {
     res.redirect(entry.redirectURL); 
  });
 
-app.listen(PORT , ()=> console.log(`Server started at port : ${PORT}`))
+ const PORT = process.env.PORT || 8000;
+ app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
